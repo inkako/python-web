@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="3.12 WSL (Ubuntu-22.04): (/home/ako/zone/pyzone/python-web/backend-fastapi/.venv/bin/python)" jdkType="Python SDK" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/backend-fastapi/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="3.12 WSL (Ubuntu-22.04): (/home/wuchenghui/zone/pyzone/python-web/backend-fastapi/.venv/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

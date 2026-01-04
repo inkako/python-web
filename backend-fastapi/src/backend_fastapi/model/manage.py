@@ -1,7 +1,7 @@
 from tortoise import fields
 
 from .base import BaseModel, TimestampMixin
-
+from backend_fastapi.enum import MenuType
 
 class User(BaseModel, TimestampMixin):
     username = fields.CharField(max_length=32, unique=True, description="用户名称")
@@ -32,6 +32,7 @@ class Role(BaseModel, TimestampMixin):
 class Menu(BaseModel, TimestampMixin):
     name = fields.CharField(max_length=128, unique=True, description="菜单名称", index=True)
     desc = fields.CharField(max_length=512, null=True, description="菜单描述")
+    menu_type = fields.CharEnumField(menu_type=MenuType, description="菜单类型")
 
     class Meta:
         table = "menu"

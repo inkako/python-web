@@ -1,4 +1,4 @@
-from .tables import (
+from .manage import (
     User,
     Role,
 )
