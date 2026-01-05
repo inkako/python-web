@@ -1,7 +1,8 @@
 from tortoise import fields
 
 from .base import BaseModel, TimestampMixin
-from backend_fastapi.enum import MenuType
+from app.enum import MenuType
+
 
 class User(BaseModel, TimestampMixin):
     username = fields.CharField(max_length=32, unique=True, description="用户名称")
@@ -19,9 +20,10 @@ class User(BaseModel, TimestampMixin):
         table = "user"
         table_description = "用户表"
 
+
 class Role(BaseModel, TimestampMixin):
-    name = fields.CharField(max_length=128, unique=True, description="角色名称", index=True)
-    desc = fields.CharField(max_length=512, null=True, description="角色描述")
+    name = fields.CharField(max_length=128, unique=True, description="名称", index=True)
+    desc = fields.CharField(max_length=512, null=True, description="描述")
     menus = fields.ManyToManyField(model_name="model.Menu", related_name="roles", through="role_menu")
     apis = fields.ManyToManyField(model_name="model.Api", related_name="roles", through="role_api")
 
@@ -29,16 +31,25 @@ class Role(BaseModel, TimestampMixin):
         table = "role"
         table_description = "角色表"
 
+
 class Menu(BaseModel, TimestampMixin):
-    name = fields.CharField(max_length=128, unique=True, description="菜单名称", index=True)
-    desc = fields.CharField(max_length=512, null=True, description="菜单描述")
-    menu_type = fields.CharEnumField(menu_type=MenuType, description="菜单类型")
+    name = fields.CharField(max_length=128, unique=True, description="名称", index=True)
+    desc = fields.CharField(max_length=512, null=True, description="描述")
+    menu_type = fields.CharEnumField(MenuType, null=True, description="类型")
+    icon = fields.CharField(max_length=128, null=True, description="图标")
+    path = fields.CharField(max_length=512, null=True, description="路径")
+    order = fields.IntField(default=0, null=True, description="排序")
+    is_hidden = fields.BooleanField(default=False, description="是否隐藏")
+    parent_id = fields.IntField(null=True, description="父ID")
 
     class Meta:
         table = "menu"
         table_description = "菜单表"
 
+
 class Api(BaseModel, TimestampMixin):
+    path = fields.CharField(max_length=512, description="接口路径", index=True)
+    method = fields.CharField(max_length=16, description="请求方法")
     name = fields.CharField(max_length=128, unique=True, description="接口名称", index=True)
     desc = fields.CharField(max_length=512, null=True, description="接口描述")
 
