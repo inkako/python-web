@@ -1,4 +1,4 @@
-from .manage import (
+from .models import (
     User,
     Role,
 )
