@@ -9,7 +9,6 @@ def main():
 if __name__ == "__main__":
     print(f"cwd:{os.getcwd()}")
     print(f"package:{__package__}")
-    print(f"file:{__file__}")
     for i, path in enumerate(sys.path):
         print(f"{i}: {path}")
     main()
