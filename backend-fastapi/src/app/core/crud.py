@@ -45,10 +45,8 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         Raises:
             None
         """
-        if order is None:
-            order = []
         query_set = self.model.filter(search)
-        return await query_set.count(), await query_set.offset((page - 1) * rows).limit(rows).order_by(*order)
+        return await query_set.count(), await query_set.offset((page - 1) * rows).limit(rows).order_by(*order if order is not None else [])
 
     async def update(self, mid: int, obj_in: UpdateSchemaType | Dict[str, Any]) -> ModelType:
         if isinstance(obj_in, dict):
