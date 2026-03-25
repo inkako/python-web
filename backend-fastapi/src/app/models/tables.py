@@ -1,7 +1,6 @@
 from tortoise import fields
 
 from .base import BaseModel, TimestampMixin
-from app.enum import MenuType
 
 
 class User(BaseModel, TimestampMixin):
@@ -14,28 +13,36 @@ class User(BaseModel, TimestampMixin):
     is_superuser = fields.BooleanField(default=False, description="是否为超级用户", index=True)
     last_login = fields.DatetimeField(null=True, description="最后登录时间", index=True)
     dept_id = fields.IntField(null=True, description="部门ID", index=True)
-    roles = fields.ManyToManyField(model_name="model.Role", related_name="users", through="user_role")
+    roles = fields.ManyToManyField("models.Role", related_name="users", through="user_role")
 
     class Meta:
         table = "user"
-        table_description = "用户表"
 
 
 class Role(BaseModel, TimestampMixin):
     name = fields.CharField(max_length=128, unique=True, description="名称", index=True)
     desc = fields.CharField(max_length=512, null=True, description="描述")
-    menus = fields.ManyToManyField(model_name="model.Menu", related_name="roles", through="role_menu")
-    apis = fields.ManyToManyField(model_name="model.Api", related_name="roles", through="role_api")
+    menus = fields.ManyToManyField("models.Menu", related_name="roles", through="role_menu")
+    permissions = fields.ManyToManyField("models.Permission", related_name="roles", through="role_permission")
 
     class Meta:
         table = "role"
-        table_description = "角色表"
+
+
+class Permission(BaseModel, TimestampMixin):
+    path = fields.CharField(max_length=512, description="接口路径", index=True)
+    method = fields.CharField(max_length=16, description="请求方法")
+    name = fields.CharField(max_length=128, unique=True, description="接口名称", index=True)
+    desc = fields.CharField(max_length=512, null=True, description="接口描述")
+
+    class Meta:
+        table = "permission"
 
 
 class Menu(BaseModel, TimestampMixin):
     name = fields.CharField(max_length=128, unique=True, description="名称", index=True)
     desc = fields.CharField(max_length=512, null=True, description="描述")
-    menu_type = fields.CharEnumField(MenuType, null=True, description="类型")
+    menu_type = fields.CharField(max_length=8, null=True, description="类型")
     icon = fields.CharField(max_length=128, null=True, description="图标")
     path = fields.CharField(max_length=512, null=True, description="路径")
     order = fields.IntField(default=0, null=True, description="排序")
@@ -44,15 +51,3 @@ class Menu(BaseModel, TimestampMixin):
 
     class Meta:
         table = "menu"
-        table_description = "菜单表"
-
-
-class Api(BaseModel, TimestampMixin):
-    path = fields.CharField(max_length=512, description="接口路径", index=True)
-    method = fields.CharField(max_length=16, description="请求方法")
-    name = fields.CharField(max_length=128, unique=True, description="接口名称", index=True)
-    desc = fields.CharField(max_length=512, null=True, description="接口描述")
-
-    class Meta:
-        table = "api"
-        table_description = "接口表"

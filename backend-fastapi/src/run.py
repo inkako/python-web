@@ -1,9 +1,19 @@
 import os
 import sys
 
+import uvicorn
+
+from app.config import settings
+
 
 def main():
-    print("Hello from backend-fastapi!")
+    uvicorn.run(
+        "app:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True,
+        log_level=settings.log.level,
+    )
 
 
 if __name__ == "__main__":

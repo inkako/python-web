@@ -27,10 +27,10 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def list(self, page: int, rows: int, order=None, search: Q = Q()) -> Tuple[int, list[ModelType]]:
         """
-        Retrieve a paginated and ordered list of model instances.
+        Retrieve a paginated and ordered list of models instances.
 
         Summary:
-        This function fetches a subset of model instances from the database, based on the provided page number, number of rows per page, order, and search criteria.
+        This function fetches a subset of models instances from the database, based on the provided page number, number of rows per page, order, and search criteria.
         The results are paginated and can be sorted by specifying the order. It also returns the total count of items matching the search criteria.
 
         Args:
@@ -40,7 +40,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             search (Q, optional): A Q object representing the search query. Defaults to an empty Q object.
 
         Returns:
-            Tuple[int, list[ModelType]]: A tuple containing the total count of items and the list of model instances for the specified page.
+            Tuple[int, list[ModelType]]: A tuple containing the total count of items and the list of models instances for the specified page.
 
         Raises:
             None
